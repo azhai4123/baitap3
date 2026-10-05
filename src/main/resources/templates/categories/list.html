@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Category List</title>
+</head>
+<body>
+<h1>Categories</h1>
+
+<a th:href="@{/categories/new}">Create New</a>
+
+<ul>
+    <li th:each="cat : ${categories}">
+        <span th:text="${cat.name}"></span>
+        <a th:href="@{/categories/{id}/edit(id=${cat.id})}">Edit</a>
+        <a th:href="@{/categories/{id}/delete(id=${cat.id})}">Delete</a>
+    </li>
+</ul>
+</body>
+</html>
