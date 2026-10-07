@@ -1,12 +1,11 @@
 package org.example.mcv.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -14,25 +13,23 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-public class Category {
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Category name is required")
-    @Size(max = 80, message = "Category name must be at most 80 characters")
+    @NotBlank(message = "Author name is required")
+    @Size(max = 120, message = "Author name must be at most 120 characters")
     private String name;
 
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private Set<Book> books = new LinkedHashSet<>();
 
-    public Category() {
-
+    public Author() {
     }
 
-    public Category(String name) {
+    public Author(String name) {
         this.name = name;
     }
 
@@ -44,11 +41,16 @@ public class Category {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Set<Book> getBooks() {
         return books;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void addBook(Book book) {
+        books.add(book);
+        book.setAuthor(this);
     }
 }

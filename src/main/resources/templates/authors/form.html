@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${editing} ? 'Edit author | Library' : 'Add author | Library'">Author | Library</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-body-tertiary">
+<nav class="navbar navbar-dark bg-dark"><div class="container"><a class="navbar-brand" th:href="@{/authors}">Library</a></div></nav>
+<main class="container py-5">
+    <div class="mx-auto" style="max-width: 560px">
+        <h1 class="h2 mb-4" th:text="${editing} ? 'Edit author' : 'Add author'">Author</h1>
+        <form class="bg-white border rounded p-4" method="post"
+              th:action="${editing} ? @{/authors/{id}(id=${author.id})} : @{/authors}"
+              th:object="${author}">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" id="name" maxlength="120" required th:field="*{name}"
+                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{name}"></div>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit" th:text="${editing} ? 'Save changes' : 'Create author'">Save</button>
+                <a class="btn btn-outline-secondary" th:href="@{/authors}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>
